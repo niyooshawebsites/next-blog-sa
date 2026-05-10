@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
 import { sendVerificationEmail } from "@/lib/mail";
 import crypto from "crypto";
-import { signIn } from "@/lib/auth";
+import { signIn, signOut } from "@/lib/auth";
 
 type ActionState = {
   error?: string;
@@ -85,5 +85,12 @@ export async function loginUser(formData: FormData) {
     email,
     password,
     redirectTo: "/dashboard",
+  });
+}
+
+// LOGOUT ACTION
+export async function logoutUser() {
+  await signOut({
+    redirectTo: "/login",
   });
 }
