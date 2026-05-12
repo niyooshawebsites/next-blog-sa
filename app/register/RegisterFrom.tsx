@@ -9,8 +9,8 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 
 const initialState = {
-  error: "",
-  success: "",
+  success: false,
+  msg: "",
 };
 
 export default function RegisterForm() {
@@ -57,9 +57,11 @@ export default function RegisterForm() {
             />
           </Field>
 
-          {state.error && <p className="text-red-500">{state.error}</p>}
-
-          {state.success && <p className="text-green-500">{state.success}</p>}
+          {state.success ? (
+            <p className="text-green-500">{state.msg}</p>
+          ) : (
+            <p className="text-red-500">{state.msg}</p>
+          )}
 
           <Button type="submit" className="bg-orange-500 text-white">
             Register

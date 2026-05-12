@@ -7,8 +7,8 @@ import crypto from "crypto";
 import { signIn, signOut } from "@/lib/auth";
 
 type ActionState = {
-  error?: string;
-  success?: string;
+  success?: boolean;
+  msg?: string;
 };
 
 // REGISTER ACTION
@@ -22,7 +22,10 @@ export const registerUser = async (
 
   // Validation
   if (!name || !email || !password) {
-    return { error: "All fields are required" };
+    return {
+      success: false,
+      msg: "All credentials are required!",
+    };
   }
 
   // Check existing user
@@ -31,7 +34,10 @@ export const registerUser = async (
   });
 
   if (existingUser) {
-    return { error: "User already exists" };
+    return {
+      success: false,
+      msg: "Account already exists. Please login.",
+    };
   }
 
   try {
@@ -65,13 +71,15 @@ export const registerUser = async (
     await sendVerificationEmail(email, verifyUrl);
 
     return {
-      success: "Check your email to verify account",
+      success: true,
+      msg: "Check your email to verify account",
     };
   } catch (error) {
     console.error("Register error:", error);
 
     return {
-      error: "Something went wrong. Please try again.",
+      success: false,
+      msg: "Something went wrong! Please try again",
     };
   }
 };

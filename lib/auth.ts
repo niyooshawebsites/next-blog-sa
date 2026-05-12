@@ -40,6 +40,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           throw new Error("Invalid login method");
         }
 
+        if (user.emailVerified == null) {
+          throw new Error("Email your email!");
+        }
+
         const isValid = await bcrypt.compare(password, user.password);
 
         if (!isValid) throw new Error("Invalid credentials");
